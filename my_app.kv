@@ -1,0 +1,221 @@
+Manager:
+    MenuProgramme:
+        id:MenuProgramme
+    AddProg:
+    Historique:
+    Option:
+    ActiveSportScreen:
+
+
+<BarreHaut>
+    name:'Barrehaut'
+    MDTopAppBar:
+        title: app.title
+        md_bg_color: app.theme_cls.accent_light
+        elevation: 2 # ombre sous la barre
+        pos_hint: {"top": 1}
+        left_action_items:
+            [['menu', lambda x: tiroir_gauche.set_state("open")]]
+    MDNavigationDrawer:
+        id: tiroir_gauche
+        md_bg_color: app.theme_cls.primary_light
+        radius: (0, 20, 20, 0)
+        size_hint:None,1
+        size:'250dp','1dp'
+        padding: 16, 16, 8, 16
+        MDNavigationDrawerMenu:
+            MDNavigationDrawerHeader:
+                title: "APP SPORT"  # taille non changeable
+                title_color: 'black'
+                text: "Version alpha"
+                text_color:"#4a4939"
+                spacing: "4dp"
+                padding: "12dp", 0, 0, "40dp"
+            DrawerClickableItem:
+                text: "Programmes"
+                icon: "list-box"
+                on_release:
+                    app.transition_manager('NoTransition()',None,'MenuProgramme')
+                    app.title = 'Menu des programmes'
+                    tiroir_gauche.set_state("close")
+            DrawerClickableItem:
+                text: "Historique"
+                icon: "history"
+                on_release:
+                    app.transition_manager('NoTransition()',None,'Historique')
+                    app.title = 'Historiques des sessions'
+                    tiroir_gauche.set_state("close")
+            DrawerClickableItem:
+                text: "Options"
+                icon: "cogs"
+                on_release:
+                    app.transition_manager('NoTransition()',None, 'Option')
+                    app.title = 'Menu des options'
+                    tiroir_gauche.set_state("close")
+
+<DrawerClickableItem@MDNavigationDrawerItem>
+    focus_color: "blue"
+    text_color: "#4a4939"
+    icon_color: "#4a4939"
+    ripple_color: app.theme_cls.primary_dark
+    selected_color: "#4a4939"
+    md_bg_color: app.theme_cls.primary_light
+
+
+
+<NavigationBasse>
+    MDBoxLayout:
+        orientation:'vertical'
+        MDBottomNavigation
+            MDBottomNavigationItem:
+                name: 'screen1'
+                text:'Groupe musculaire'
+                icon:'images/icon/MW.png'
+                MDLabel:
+                    text:'aa'
+                    halign:'center'
+
+            MDBottomNavigationItem:
+                name: 'screen2'
+                text:'Par famille'
+                icon:'images/icon/MW.png'
+                Image:
+                    source:'images/icon/MW.png'
+                    pos_hint:{'center_x':.5,'center_y':.5}
+                    size_hint:.1,.1
+                    tooltip_text: 'party'
+            MDBottomNavigationItem:
+                name: 'screen3'
+                text:'récapitulatif/live'
+                icon:'images/icon/MW.png'
+                MDLabel:
+                    text:'Voir le programme qui se construit'
+                    halign:'center'
+
+<MenuProgramme>
+    name:'MenuProgramme'
+    md_bg_color: app.theme_cls.bg_darkest
+
+    MDDropDownItem
+        id: drop_item
+        text:'Programmes'
+        font_size:'22sp'
+#        size_hint:None,None
+        pos_hint:{'center_x': .5, 'center_y':.83}
+        on_release: app.menu.open()
+    MDIconButton
+        icon:'filter-variant'
+        icon_size:'28dp'
+#        size_hint:None,None
+        pos_hint: {'center_x': .6, 'center_y': .83}
+    MDIconButton:
+        icon:'plus-box-outline'
+        theme_icon_color:'Custom'
+        icon_color:'green'
+        icon_size: '28dp'
+        size_hint:None,None
+        pos_hint:{'center_x': .65, 'center_y': .83}
+        on_release:
+            app.transition_manager('CardTransition()', 'up', None)
+            app.confirmation_dialog()
+            app.title = 'Création de programme'
+    MDIconButton
+        icon:'play'
+        icon_size:'80dp'
+        pos_hint: {'center_x': .95, 'center_y': .1}
+        on_release:
+            app.transition_manager('FadeTransition()', None, 'ActiveSportScreen')
+    MDFloatLayout:
+        size_hint: 0.4,0.2
+        md_bg_color:'green'
+        pos_hint:{'center_x': .25, 'center_y': .15}
+
+    MDLabel
+        text:'Description'
+        font_size:'18sp'
+        size_hint: .1,.07
+        pos_hint: {'center_x': .6, 'center_y': .73}
+    MDScrollView
+        size_hint: 0.4,0.4
+        pos_hint:{'center_x': .75, 'center_y': .5}
+        MDLabel
+            text:'ce texte d\n\n\n\n\n\n\n\n\n\n\n\nécrit le programme, les sport inclu, ce que ça travail, le type (haut du corps/mobilité etc)...'
+            adaptive_height:True
+            md_bg_color:'red'
+    MDScrollView
+        size_hint: 0.4,0.4
+        pos_hint:{'center_x': .25, 'center_y': .5}
+        MDLabel
+            text:' pomme\n melon\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n carotte'
+            color:'purple'
+            adaptive_height:True
+            md_bg_color: app.theme_cls.primary_light
+    BarreHaut:
+
+<AddProg>
+    name: 'AddProg'
+    md_bg_color: app.theme_cls.bg_darkest
+    NavigationBasse:
+    BarreHaut:
+
+
+<Option>
+    name:"Option"
+    md_bg_color: app.theme_cls.bg_darkest
+
+    MDIconButton
+        size_hint:.1,.1
+        pos_hint:{'center_x':.5,'center_y':.8}
+        icon:"theme-light-dark"
+        icon_size: '56dp'
+        theme_icon_color: "Custom"
+        icon_color: app.theme_cls.accent_light
+        on_release:
+            app.switch_light()
+    MDIconButton
+        icon:'plus'
+        size_hint:.1,.1
+        icon_size: '56dp'
+        pos_hint:{'center_x':.5,'center_y':.4}
+    MDSlider
+        size_hint:.2,.1
+        pos_hint:{'center_x':.5,'center_y':.2}
+    MDIcon
+        icon:'volume-low'
+        size_hint:.1,.1
+        pos_hint:{'center_x':.4,'center_y':.2}
+    MDIcon
+        icon:'volume-high'
+        size_hint:.1,.1
+        pos_hint:{'center_x':.6,'center_y':.2}
+    BarreHaut:
+
+
+<Historique>
+    name:"Historique"
+    md_bg_color: app.theme_cls.bg_darkest
+    MDLabel:
+        text:'Historique'
+    BarreHaut:
+
+
+<ActiveSportScreen>
+    name:"ActiveSportScreen"
+    md_bg_color: app.theme_cls.primary_light
+    MDLabel:
+        text:'Programme en cours ! cours !'
+
+<IconListItem>
+    IconLeftWidget:
+        icon: root.icon
+
+
+#            MDLabel
+#                text: 'Changer de programme'
+#                font_size:'16sp'
+#                text_size: self.width, None
+#                size: self.texture_size
+#                halign:'center'
+#                valign:'center'
+#                color:(200,50,20,60)
+#                bold:True
